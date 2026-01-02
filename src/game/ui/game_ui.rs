@@ -9,6 +9,7 @@ use crate::game::ui::name_entry::name_entry_view;
 pub struct GameUI {
     pub(crate) fps: i32,
     pub(crate) total_time: f32,
+    pub(crate) simulation_time_ms: f32,
     pub(crate) game_state: GameState,
     pub(crate) leaderboard_results: Vec<LeaderboardEntry>,
     pub(crate) name_input: String,
@@ -18,6 +19,7 @@ pub struct GameUI {
 pub enum Message {
     UpdateFps(i32),
     UpdateTime(f32),
+    UpdateSimulationTime(f32),
     UpdateGameState(GameState),
     UpdateLeaderboardResults(Vec<LeaderboardEntry>),
     UpdateNameInput(String),
@@ -29,6 +31,7 @@ impl GameUI {
         Self {
             fps: 60,
             total_time: 0.0,
+            simulation_time_ms: 0.0,
             game_state: GameState::Playing,
             leaderboard_results: Vec::new(),
             name_input: String::new(),
@@ -39,6 +42,7 @@ impl GameUI {
         match message {
             Message::UpdateFps(fps) => self.fps = fps,
             Message::UpdateTime(time) => self.total_time = time,
+            Message::UpdateSimulationTime(time) => self.simulation_time_ms = time,
             Message::UpdateGameState(state) => self.game_state = state,
             Message::UpdateLeaderboardResults(results) => self.leaderboard_results = results,
             Message::UpdateNameInput(name) => self.name_input = name,

@@ -55,7 +55,7 @@ impl LevelBuilder {
         let mut rng = Random::seed_from_beginning_of_day(); //seed_from_beginning_of_week(); //car_scene.rng;
         
         let mut level_builder_context = LevelBuilderContext::new(entity_system, particle_vec, sim, &mut rng);
-        self.generate(&mut level_builder_context, 3); //10); //10);
+        self.generate(&mut level_builder_context, 10); //10); //10);
 
         // todo: we should push the seed and # level blocks into the event system
     }

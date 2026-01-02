@@ -11,6 +11,9 @@ pub fn hud_view(ui: &GameUI) -> Element<'_, Message, Theme, iced::Renderer> {
             text(format!("Time: {:.2}s", ui.total_time))
                 .size(20)
                 .color(Color::WHITE),
+            text(format!("Sim Time: {:.2}ms", ui.simulation_time_ms))
+                .size(20)
+                .color(Color::WHITE),
         ]
         .padding(10)
     )

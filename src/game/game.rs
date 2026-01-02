@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, time::Instant};
 
 use crate::{
     core::math::vec2::Vec2,
@@ -102,6 +102,21 @@ impl Game {
         }
         
         self.update_particle_instances(&ctx.graphics.queue, &ctx.graphics.device);
+    }
+
+    pub fn step_simulation(&mut self, time_delta: f32) -> f32 {
+        let start = Instant::now();
+        
+        self.simulation.pre_solve(time_delta);
+        self.entity_system.elevator_entity_system.update_counts(&mut self.simulation);
+
+        for i in 0..3 {
+            self.simulation.solve(time_delta, 3, i);
+            self.entity_system.elevator_entity_system.solve_constraints(&mut self.simulation, time_delta);
+        }
+        self.simulation.post_solve(time_delta);
+
+        start.elapsed().as_secs_f32() * 1000.0
     }
 }
 
@@ -254,14 +269,8 @@ impl GameLoop for Game {
         }
 
         let time_delta: f32 = 0.005;
-        self.simulation.pre_solve(time_delta);
-        self.entity_system.elevator_entity_system.update_counts(&mut self.simulation);
-
-        for i in 0..3 {
-            self.simulation.solve(time_delta, 3, i);
-            self.entity_system.elevator_entity_system.solve_constraints(&mut self.simulation, time_delta);
-        }
-        self.simulation.post_solve(time_delta);
+        let sim_time = self.step_simulation(time_delta);
+        self.ui.update(crate::game::ui::game_ui::Message::UpdateSimulationTime(sim_time));
         
         self.camera_controller.update_camera(&mut self.camera);
 
