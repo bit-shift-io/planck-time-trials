@@ -209,6 +209,7 @@ impl GameLoop for Game {
 
         let mut ui = crate::game::ui::game_ui::GameUI::new();
         ui.update(crate::game::ui::game_ui::Message::UpdateGameState(game_state));
+        ui.update(crate::game::ui::game_ui::Message::UpdateShowDebugInfo(settings.show_debug_info.unwrap_or(true)));
 
         let mut game = Self {
             camera,
@@ -399,6 +400,7 @@ impl GameLoop for Game {
                         self.current_nickname = self.ui.name_input.trim().to_string();
                         let settings = Settings {
                             player_name: Some(self.current_nickname.clone()),
+                            show_debug_info: Some(self.ui.show_debug_info),
                         };
                         let _ = settings.save();
 

@@ -5,6 +5,7 @@ use std::path::Path;
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Settings {
     pub player_name: Option<String>,
+    pub show_debug_info: Option<bool>,
 }
 
 impl Settings {

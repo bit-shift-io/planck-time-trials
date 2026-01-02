@@ -5,6 +5,7 @@ use crate::game::ui::hud::hud_view;
 use crate::game::ui::leaderboard::leaderboard_view;
 use crate::game::ui::name_entry::name_entry_view;
 
+
 #[derive(Debug, Clone)]
 pub struct GameUI {
     pub(crate) fps: i32,
@@ -15,6 +16,7 @@ pub struct GameUI {
     pub(crate) game_state: GameState,
     pub(crate) leaderboard_results: Vec<LeaderboardEntry>,
     pub(crate) name_input: String,
+    pub(crate) show_debug_info: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -27,6 +29,7 @@ pub enum Message {
     UpdateGameState(GameState),
     UpdateLeaderboardResults(Vec<LeaderboardEntry>),
     UpdateNameInput(String),
+    UpdateShowDebugInfo(bool),
     SubmitName,
 }
 
@@ -41,6 +44,7 @@ impl GameUI {
             game_state: GameState::Playing,
             leaderboard_results: Vec::new(),
             name_input: String::new(),
+            show_debug_info: true,
         }
     }
 
@@ -54,6 +58,7 @@ impl GameUI {
             Message::UpdateGameState(state) => self.game_state = state,
             Message::UpdateLeaderboardResults(results) => self.leaderboard_results = results,
             Message::UpdateNameInput(name) => self.name_input = name,
+            Message::UpdateShowDebugInfo(show) => self.show_debug_info = show,
             Message::SubmitName => {} // Handled by Game
         }
     }
