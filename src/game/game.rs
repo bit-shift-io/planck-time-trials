@@ -235,6 +235,7 @@ impl GameLoop for Game {
     }
 
     fn update(&mut self, ctx: &mut Context) {
+        let start = Instant::now();
         let dt = if ctx.dt <= 0.0 { 1.0 / 60.0 } else { ctx.dt };
         let fps = (1.0 / dt).round() as i32;
         self.ui.update(crate::game::ui::game_ui::Message::UpdateFps(fps));
@@ -265,6 +266,8 @@ impl GameLoop for Game {
         ctx.event_system.clear_events();
 
         if self.game_state == GameState::NameEntry {
+            let elapsed = start.elapsed().as_secs_f32() * 1000.0;
+            self.ui.update(crate::game::ui::game_ui::Message::UpdateUpdateTime(elapsed));
             return;
         }
 
@@ -337,9 +340,13 @@ impl GameLoop for Game {
                 }
             }
         }
+
+        let elapsed = start.elapsed().as_secs_f32() * 1000.0;
+        self.ui.update(crate::game::ui::game_ui::Message::UpdateUpdateTime(elapsed));
     }
 
     fn render(&mut self, ctx: &mut Context) {
+        let start = Instant::now();
         let output = match ctx.graphics.surface.get_current_texture() {
             Ok(output) => output,
             Err(_) => return,
@@ -408,6 +415,9 @@ impl GameLoop for Game {
                 _ => self.ui.update(msg),
             }
         }
+
+        let elapsed = start.elapsed().as_secs_f32() * 1000.0;
+        self.ui.update(crate::game::ui::game_ui::Message::UpdateRenderTime(elapsed));
 
         output.present();
     }

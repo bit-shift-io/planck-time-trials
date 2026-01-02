@@ -6,13 +6,19 @@ pub fn hud_view(ui: &GameUI) -> Element<'_, Message, Theme, iced::Renderer> {
     container(
         column![
             text(format!("FPS: {}", ui.fps))
-                .size(20)
+                .size(15)
+                .color(Color::WHITE),
+            text(format!("Update: {:.2}ms", ui.update_time_ms))
+                .size(15)
+                .color(Color::WHITE),
+            text(format!("Render: {:.2}ms", ui.render_time_ms))
+                .size(15)
                 .color(Color::WHITE),
             text(format!("Time: {:.2}s", ui.total_time))
-                .size(20)
+                .size(18)
                 .color(Color::WHITE),
-            text(format!("Sim Time: {:.2}ms", ui.simulation_time_ms))
-                .size(20)
+            text(format!("Sim: {:.2}ms", ui.simulation_time_ms))
+                .size(15)
                 .color(Color::WHITE),
         ]
         .padding(10)
